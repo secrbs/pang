@@ -12,7 +12,8 @@ export type Player = {
 export type Wire = {
   active: boolean
   x: number
-  y: number
+  y: number       // 와이어 끝(tip) — 위로 이동
+  bottomY: number // 와이어 시작점 — 고정
   speed: number
 }
 
@@ -29,6 +30,7 @@ export function usePlayer(paused: boolean) {
     active: false,
     x: 0,
     y: 0,
+    bottomY: 0,
     speed: WIRE_CONFIG.speed,
   })
 
@@ -41,10 +43,12 @@ export function usePlayer(paused: boolean) {
       keysRef.current.add(e.key)
       if (e.key === ' ' && !pausedRef.current && !wireRef.current.active) {
         const p = playerRef.current
+        const startY = p.y - WIRE_CONFIG.bottomOffset
         wireRef.current = {
           active: true,
           x: p.x + p.width / 2,
-          y: p.y,
+          y: startY,
+          bottomY: startY,
           speed: WIRE_CONFIG.speed,
         }
       }

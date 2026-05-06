@@ -51,6 +51,8 @@ Phase 1. 메인 화면
 
 ## Phase 3 — 버블 동작
 
+> 세부 설계: [design/phase3-bubble.md](design/phase3-bubble.md)
+
 버블이 튀어다니고 와이어에 맞아 분열하는 핵심 메커니즘입니다.
 
 **확인 항목**
