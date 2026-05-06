@@ -1,0 +1,44 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', monospace;
+  user-select: none;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  border: 2px solid #ffcc00;
+  padding: 40px 60px;
+}
+
+.message {
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.buttons {
+  display: flex;
+  gap: 40px;
+}
+
+.btn {
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: #555;
+  padding: 6px 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.btn.selected {
+  color: #ffcc00;
+  border-color: #ffcc00;
+}
