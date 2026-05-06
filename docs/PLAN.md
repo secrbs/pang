@@ -36,6 +36,8 @@ Phase 1. 메인 화면
 
 ## Phase 2 — 플레이어 조작
 
+> 세부 설계: [design/phase2-player.md](design/phase2-player.md)
+
 캐릭터를 움직이고 와이어를 발사하는 기본 조작입니다.
 
 **확인 항목**

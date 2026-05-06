@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import MainScene from './scenes/MainScene'
 import HowToPlayScene from './scenes/HowToPlayScene'
+import GameScene from './scenes/GameScene'
 import PauseOverlay from './scenes/PauseOverlay'
 
 type Scene = 'main' | 'howtoplay' | 'game' | 'pause' | 'gameover'
@@ -33,9 +34,7 @@ export default function App() {
   if (scene === 'game' || scene === 'pause') {
     return (
       <>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#000', color: '#fff', fontFamily: 'monospace', fontSize: 24 }}>
-          GAME (Phase 2에서 구현)
-        </div>
+        <GameScene paused={scene === 'pause'} />
         {scene === 'pause' && (
           <PauseOverlay
             onResume={() => setScene('game')}
