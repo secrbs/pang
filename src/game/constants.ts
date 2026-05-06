@@ -10,7 +10,6 @@ export const PLAYER_CONFIG = {
 
 export const WIRE_CONFIG = {
   speed: 12,
-  bottomOffset: 30, // 플레이어 상단보다 이 만큼 위에서 와이어 시작
 } as const
 
 export const GRAVITY = 0.4

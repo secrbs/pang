@@ -3,13 +3,19 @@ import type { MutableRefObject } from 'react'
 import type { Player, Wire } from './usePlayer'
 import type { Bubble } from './types'
 
-// 수직 선분(x=wire.x, y: wireY~playerY)과 원의 충돌 감지
 function wireHitsBubble(wire: Wire, bubble: Bubble): boolean {
   const dx = wire.x - bubble.x
-  // 수직 선분(wire.y ~ wire.bottomY) 위의 bubble.y에 가장 가까운 점
   const closestY = Math.max(wire.y, Math.min(bubble.y, wire.bottomY))
   const dy = closestY - bubble.y
   return dx * dx + dy * dy <= bubble.radius * bubble.radius
+}
+
+function bubbleHitsPlayer(bubble: Bubble, player: Player): boolean {
+  const closestX = Math.max(player.x, Math.min(bubble.x, player.x + player.width))
+  const closestY = Math.max(player.y, Math.min(bubble.y, player.y + player.height))
+  const dx = bubble.x - closestX
+  const dy = bubble.y - closestY
+  return dx * dx + dy * dy < bubble.radius * bubble.radius
 }
 
 export function useCollision(
@@ -29,7 +35,15 @@ export function useCollision(
         return
       }
     }
-  }, [bubblesRef, wireRef, playerRef, splitBubble])
+  }, [bubblesRef, wireRef, splitBubble])
 
-  return { checkWireBubble }
+  const checkBubblePlayer = useCallback(() => {
+    const player = playerRef.current
+    for (const bubble of bubblesRef.current) {
+      if (bubbleHitsPlayer(bubble, player)) return true
+    }
+    return false
+  }, [bubblesRef, playerRef])
+
+  return { checkWireBubble, checkBubblePlayer }
 }

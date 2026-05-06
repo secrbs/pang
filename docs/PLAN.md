@@ -65,6 +65,8 @@ Phase 1. 메인 화면
 
 ## Phase 4 — 게임 판정
 
+> 세부 설계: [design/phase4-judgment.md](design/phase4-judgment.md)
+
 플레이 중 발생하는 성공·실패 조건입니다.
 
 **확인 항목**

@@ -43,12 +43,11 @@ export function usePlayer(paused: boolean) {
       keysRef.current.add(e.key)
       if (e.key === ' ' && !pausedRef.current && !wireRef.current.active) {
         const p = playerRef.current
-        const startY = p.y - WIRE_CONFIG.bottomOffset
         wireRef.current = {
           active: true,
           x: p.x + p.width / 2,
-          y: startY,
-          bottomY: startY,
+          y: p.y,
+          bottomY: p.y,
           speed: WIRE_CONFIG.speed,
         }
       }
