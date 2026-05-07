@@ -42,7 +42,6 @@ export default function App() {
       setScene('gameover')
     } else {
       setLives(l => l - 1)
-      setStageKey(k => k + 1)
     }
   }
 
