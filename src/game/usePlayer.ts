@@ -52,7 +52,7 @@ export function usePlayer(paused: boolean, walls: WallData[]) {
           active: true,
           x: p.x + p.width / 2,
           y: p.y,
-          bottomY: p.y,
+          bottomY: FLOOR_Y,
           speed: WIRE_CONFIG.speed,
         }
       }
