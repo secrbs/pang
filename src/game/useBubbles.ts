@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { CANVAS_WIDTH, FLOOR_Y, GRAVITY, BUBBLE_CONFIG } from './constants'
 import type { Bubble, BubbleLevel } from './types'
+import type { WallData } from './stageData'
 
 let nextId = 0
 
@@ -9,10 +10,14 @@ function makeBubble(level: BubbleLevel, x: number, y: number, vx: number, initia
   return { id: nextId++, level, x, y, vx, vy: initialVy ?? 0, radius, bounceVy }
 }
 
-export function useBubbles(initial: { level: BubbleLevel; x: number; y: number }[]) {
+export function useBubbles(
+  initial: { level: BubbleLevel; x: number; y: number }[],
+  walls: WallData[],
+) {
   const bubblesRef = useRef<Bubble[]>(
     initial.map(b => makeBubble(b.level, b.x, b.y, BUBBLE_CONFIG[b.level].vx))
   )
+  const wallsRef = useRef(walls)
 
   const updatePhysics = useCallback(() => {
     for (const b of bubblesRef.current) {
@@ -20,11 +25,29 @@ export function useBubbles(initial: { level: BubbleLevel; x: number; y: number }
       b.x += b.vx
       b.y += b.vy
 
+      // 벽 위 반사 (위에서 아래로 내려올 때만)
+      if (b.vy > 0) {
+        for (const w of wallsRef.current) {
+          if (
+            b.x + b.radius > w.x &&
+            b.x - b.radius < w.x + w.width &&
+            b.y + b.radius >= w.y &&
+            b.y - b.radius < w.y
+          ) {
+            b.y = w.y - b.radius
+            b.vy = b.bounceVy
+            break
+          }
+        }
+      }
+
+      // 바닥 반사
       if (b.y + b.radius >= FLOOR_Y) {
         b.y = FLOOR_Y - b.radius
         b.vy = b.bounceVy
       }
 
+      // 좌우 벽 반사
       if (b.x - b.radius <= 0) {
         b.x = b.radius
         b.vx = Math.abs(b.vx)
@@ -52,5 +75,9 @@ export function useBubbles(initial: { level: BubbleLevel; x: number; y: number }
     }
   }, [])
 
-  return { bubblesRef, updatePhysics, splitBubble }
+  const killBubble = useCallback((id: number) => {
+    bubblesRef.current = bubblesRef.current.filter(b => b.id !== id)
+  }, [])
+
+  return { bubblesRef, updatePhysics, splitBubble, killBubble }
 }

@@ -4,20 +4,25 @@ import HowToPlayScene from './scenes/HowToPlayScene'
 import GameScene from './scenes/GameScene'
 import GameOverScene from './scenes/GameOverScene'
 import StageClearScene from './scenes/StageClearScene'
+import MissionClearScene from './scenes/MissionClearScene'
 import PauseOverlay from './scenes/PauseOverlay'
+import { MISSION1_STAGES } from './game/stageData'
 
-type Scene = 'main' | 'howtoplay' | 'game' | 'pause' | 'stageclear' | 'gameover'
+type Scene = 'main' | 'howtoplay' | 'game' | 'pause' | 'stageclear' | 'missionclear' | 'gameover'
 
 const INITIAL_LIVES = 5
 
 export default function App() {
   const [scene, setScene] = useState<Scene>('main')
   const [lives, setLives] = useState(INITIAL_LIVES)
+  const [stageIndex, setStageIndex] = useState(0)
+  const [cheatMode, setCheatMode] = useState(false)
 
   useEffect(() => {
-    if (scene !== 'game') return
+    if (scene !== 'game' && scene !== 'pause') return
     function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setScene('pause')
+      if (e.key === 'Escape') setScene(s => s === 'game' ? 'pause' : s)
+      if (e.key === 'q' || e.key === 'Q') setCheatMode(c => !c)
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
@@ -25,6 +30,8 @@ export default function App() {
 
   function handleStart() {
     setLives(INITIAL_LIVES)
+    setStageIndex(0)
+    setCheatMode(false)
     setScene('game')
   }
 
@@ -34,6 +41,19 @@ export default function App() {
     } else {
       setLives(l => l - 1)
     }
+  }
+
+  function handleStageClear() {
+    if (stageIndex < MISSION1_STAGES.length - 1) {
+      setScene('stageclear')
+    } else {
+      setScene('missionclear')
+    }
+  }
+
+  function handleNextStage() {
+    setStageIndex(s => s + 1)
+    setScene('game')
   }
 
   if (scene === 'main') {
@@ -53,10 +73,13 @@ export default function App() {
     return (
       <>
         <GameScene
+          key={stageIndex}
+          stageData={MISSION1_STAGES[stageIndex]}
           lives={lives}
+          cheat={cheatMode}
           paused={scene === 'pause'}
           onPlayerDead={handlePlayerDead}
-          onStageClear={() => setScene('stageclear')}
+          onStageClear={handleStageClear}
         />
         {scene === 'pause' && (
           <PauseOverlay
@@ -69,7 +92,11 @@ export default function App() {
   }
 
   if (scene === 'stageclear') {
-    return <StageClearScene onNext={() => setScene('main')} />
+    return <StageClearScene onNext={handleNextStage} />
+  }
+
+  if (scene === 'missionclear') {
+    return <MissionClearScene onBack={() => { setLives(INITIAL_LIVES); setScene('main') }} />
   }
 
   if (scene === 'gameover') {

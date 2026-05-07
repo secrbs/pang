@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { CANVAS_WIDTH, FLOOR_Y, PLAYER_CONFIG, WIRE_CONFIG } from './constants'
+import type { WallData } from './stageData'
 
 export type Player = {
   x: number
@@ -17,7 +18,7 @@ export type Wire = {
   speed: number
 }
 
-export function usePlayer(paused: boolean) {
+export function usePlayer(paused: boolean, walls: WallData[]) {
   const playerRef = useRef<Player>({
     x: CANVAS_WIDTH / 2 - PLAYER_CONFIG.width / 2,
     y: FLOOR_Y - PLAYER_CONFIG.height,
@@ -36,6 +37,7 @@ export function usePlayer(paused: boolean) {
 
   const keysRef = useRef<Set<string>>(new Set())
   const pausedRef = useRef(paused)
+  const wallsRef = useRef(walls)
   pausedRef.current = paused
 
   useEffect(() => {
@@ -77,7 +79,21 @@ export function usePlayer(paused: boolean) {
     const wire = wireRef.current
     if (wire.active) {
       wire.y -= wire.speed
-      if (wire.y <= 0) wire.active = false
+      if (wire.y <= 0) {
+        wire.active = false
+        return
+      }
+      // 와이어가 벽에 닿으면 소멸
+      for (const w of wallsRef.current) {
+        if (
+          wire.x >= w.x &&
+          wire.x <= w.x + w.width &&
+          wire.y <= w.y + w.height
+        ) {
+          wire.active = false
+          break
+        }
+      }
     }
   }, [])
 

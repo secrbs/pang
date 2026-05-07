@@ -77,6 +77,8 @@ Phase 1. 메인 화면
 
 ## Phase 5 — 스테이지 구성 (Mission 1)
 
+> 세부 설계: [design/phase5-stage.md](design/phase5-stage.md)
+
 Mission 1의 3개 스테이지가 순서대로 진행됩니다.
 
 **확인 항목**
