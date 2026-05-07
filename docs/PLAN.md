@@ -36,6 +36,8 @@ Phase 1. 메인 화면
 
 ## Phase 2 — 플레이어 조작
 
+> 세부 설계: [design/phase2-player.md](design/phase2-player.md)
+
 캐릭터를 움직이고 와이어를 발사하는 기본 조작입니다.
 
 **확인 항목**
@@ -49,6 +51,8 @@ Phase 1. 메인 화면
 
 ## Phase 3 — 버블 동작
 
+> 세부 설계: [design/phase3-bubble.md](design/phase3-bubble.md)
+
 버블이 튀어다니고 와이어에 맞아 분열하는 핵심 메커니즘입니다.
 
 **확인 항목**
@@ -61,6 +65,8 @@ Phase 1. 메인 화면
 
 ## Phase 4 — 게임 판정
 
+> 세부 설계: [design/phase4-judgment.md](design/phase4-judgment.md)
+
 플레이 중 발생하는 성공·실패 조건입니다.
 
 **확인 항목**
@@ -70,6 +76,8 @@ Phase 1. 메인 화면
 ---
 
 ## Phase 5 — 스테이지 구성 (Mission 1)
+
+> 세부 설계: [design/phase5-stage.md](design/phase5-stage.md)
 
 Mission 1의 3개 스테이지가 순서대로 진행됩니다.
 

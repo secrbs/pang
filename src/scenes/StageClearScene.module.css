@@ -1,0 +1,8 @@
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  color: #ffcc00;
+  text-shadow: 0 0 20px #ffaa00, 0 0 40px #ff6600;
+  margin: 0;
+}

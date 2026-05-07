@@ -15,7 +15,11 @@ docs/
 │   ├── game_rule.md           # 게임 룰 상세 (버블 메커니즘, 게임 오버 등)
 │   └── mission1.md            # Mission 1 스테이지별 난이도 및 규칙
 └── design/
-    └── phase1-main-screen.md  # Phase 1 메인 화면 세부 구현 설계
+    ├── phase1-main-screen.md  # Phase 1 메인 화면 세부 구현 설계
+    ├── phase2-player.md       # Phase 2 플레이어 조작 세부 구현 설계
+    ├── phase3-bubble.md       # Phase 3 버블 동작 세부 구현 설계
+    ├── phase4-judgment.md     # Phase 4 게임 판정 세부 구현 설계
+    └── phase5-stage.md        # Phase 5 스테이지 구성 세부 구현 설계
 ```
 
 ---
