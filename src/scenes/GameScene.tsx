@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 import { useGameLoop } from '../game/useGameLoop'
 import { usePlayer, type Player, type Wire } from '../game/usePlayer'
 import { useBubbles } from '../game/useBubbles'
@@ -92,7 +92,10 @@ export default function GameScene({ stageData, lives, cheat, paused, onPlayerDea
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const invincibleRef = useRef(0)
   const cheatRef = useRef(cheat)
-  cheatRef.current = cheat
+
+  useLayoutEffect(() => {
+    cheatRef.current = cheat
+  }, [cheat])
 
   const { playerRef, wireRef, update: updatePlayer } = usePlayer(paused, stageData.walls)
   const { bubblesRef, updatePhysics, splitBubble, killBubble } = useBubbles(stageData.bubbles, stageData.walls)

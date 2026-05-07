@@ -1,8 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 
 export function useGameLoop(callback: () => void, active: boolean) {
   const callbackRef = useRef(callback)
-  callbackRef.current = callback
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback
+  })
 
   useEffect(() => {
     if (!active) return

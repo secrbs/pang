@@ -1,3 +1,5 @@
+import type { BubbleLevel } from './types'
+
 export const CANVAS_WIDTH = 800
 export const CANVAS_HEIGHT = 600
 export const FLOOR_Y = CANVAS_HEIGHT - 60
@@ -14,7 +16,7 @@ export const WIRE_CONFIG = {
 
 export const GRAVITY = 0.4
 
-export const BUBBLE_CONFIG: Record<number, {
+export const BUBBLE_CONFIG: Record<BubbleLevel, {
   radius: number
   bounceVy: number
   vx: number

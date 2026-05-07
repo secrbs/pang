@@ -3,21 +3,24 @@ import { CANVAS_WIDTH, FLOOR_Y, GRAVITY, BUBBLE_CONFIG } from './constants'
 import type { Bubble, BubbleLevel } from './types'
 import type { WallData } from './stageData'
 
-let nextId = 0
-
-function makeBubble(level: BubbleLevel, x: number, y: number, vx: number, initialVy?: number): Bubble {
-  const { radius, bounceVy } = BUBBLE_CONFIG[level]
-  return { id: nextId++, level, x, y, vx, vy: initialVy ?? 0, radius, bounceVy }
-}
-
 export function useBubbles(
   initial: { level: BubbleLevel; x: number; y: number }[],
   walls: WallData[],
 ) {
-  const bubblesRef = useRef<Bubble[]>(
-    initial.map(b => makeBubble(b.level, b.x, b.y, BUBBLE_CONFIG[b.level].vx))
-  )
+  const nextIdRef = useRef(initial.length)
   const wallsRef = useRef(walls)
+
+  const makeBubble = useCallback((level: BubbleLevel, x: number, y: number, vx: number, initialVy?: number): Bubble => {
+    const { radius, bounceVy } = BUBBLE_CONFIG[level]
+    return { id: nextIdRef.current++, level, x, y, vx, vy: initialVy ?? 0, radius, bounceVy }
+  }, [])
+
+  const bubblesRef = useRef<Bubble[]>(
+    initial.map((b, i) => {
+      const { radius, bounceVy } = BUBBLE_CONFIG[b.level]
+      return { id: i, level: b.level, x: b.x, y: b.y, vx: BUBBLE_CONFIG[b.level].vx, vy: 0, radius, bounceVy }
+    })
+  )
 
   const updatePhysics = useCallback(() => {
     for (const b of bubblesRef.current) {
@@ -79,7 +82,7 @@ export function useBubbles(
         makeBubble(childLevel, parent.x, parent.y,  childVx, parent.vy),
       )
     }
-  }, [])
+  }, [makeBubble])
 
   const killBubble = useCallback((id: number) => {
     bubblesRef.current = bubblesRef.current.filter(b => b.id !== id)

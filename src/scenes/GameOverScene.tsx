@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import shared from './scene.module.css'
 import styles from './GameOverScene.module.css'
 
 interface Props {
@@ -15,9 +16,9 @@ export default function GameOverScene({ onBack }: Props) {
   }, [onBack])
 
   return (
-    <div className={styles.screen}>
+    <div className={shared.screen}>
       <h1 className={styles.title}>G A M E  O V E R</h1>
-      <p className={styles.hint}>[ ENTER ] 메인으로 돌아가기</p>
+      <p className={shared.hint}>[ ENTER ] 메인으로 돌아가기</p>
     </div>
   )
 }

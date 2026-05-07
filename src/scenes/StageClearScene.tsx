@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import shared from './scene.module.css'
 import styles from './StageClearScene.module.css'
 
 interface Props {
@@ -15,9 +16,9 @@ export default function StageClearScene({ onNext }: Props) {
   }, [onNext])
 
   return (
-    <div className={styles.screen}>
+    <div className={shared.screen}>
       <h1 className={styles.title}>S T A G E  C L E A R</h1>
-      <p className={styles.hint}>[ ENTER ] 계속하기</p>
+      <p className={shared.hint}>[ ENTER ] 계속하기</p>
     </div>
   )
 }

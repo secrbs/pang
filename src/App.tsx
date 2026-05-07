@@ -16,6 +16,7 @@ export default function App() {
   const [scene, setScene] = useState<Scene>('main')
   const [lives, setLives] = useState(INITIAL_LIVES)
   const [stageIndex, setStageIndex] = useState(0)
+  const [stageKey, setStageKey] = useState(0)
   const [cheatMode, setCheatMode] = useState(false)
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function App() {
   function handleStart() {
     setLives(INITIAL_LIVES)
     setStageIndex(0)
+    setStageKey(0)
     setCheatMode(false)
     setScene('game')
   }
@@ -40,6 +42,7 @@ export default function App() {
       setScene('gameover')
     } else {
       setLives(l => l - 1)
+      setStageKey(k => k + 1)
     }
   }
 
@@ -53,6 +56,7 @@ export default function App() {
 
   function handleNextStage() {
     setStageIndex(s => s + 1)
+    setStageKey(k => k + 1)
     setScene('game')
   }
 
@@ -73,7 +77,7 @@ export default function App() {
     return (
       <>
         <GameScene
-          key={stageIndex}
+          key={stageKey}
           stageData={MISSION1_STAGES[stageIndex]}
           lives={lives}
           cheat={cheatMode}

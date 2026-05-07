@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { CANVAS_WIDTH, FLOOR_Y, PLAYER_CONFIG, WIRE_CONFIG } from './constants'
 import type { WallData } from './stageData'
 
@@ -38,7 +38,10 @@ export function usePlayer(paused: boolean, walls: WallData[]) {
   const keysRef = useRef<Set<string>>(new Set())
   const pausedRef = useRef(paused)
   const wallsRef = useRef(walls)
-  pausedRef.current = paused
+
+  useLayoutEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -88,7 +91,7 @@ export function usePlayer(paused: boolean, walls: WallData[]) {
         if (
           wire.x >= w.x &&
           wire.x <= w.x + w.width &&
-          wire.y <= w.y + w.height
+          wire.y <= w.y
         ) {
           wire.active = false
           break
