@@ -18,15 +18,19 @@
 
 바닥 충돌 (y + radius >= FLOOR_Y):
   y = FLOOR_Y - radius
-  vy = bounceVy  ← 생성 시 계산된 고유 값 (항상 생성된 높이까지 튀어오름)
+  vy = bounceVy  ← 레벨별 고정 반사 속도
 
-벽 충돌 (x - radius <= 0 또는 x + radius >= CANVAS_WIDTH):
+천장 충돌 (y - radius <= 0):
+  y = radius
+  vy = |vy|  ← 아래 방향으로 반전 (화면 밖으로 나가지 않음)
+
+좌우 벽 충돌 (x - radius <= 0 또는 x + radius >= CANVAS_WIDTH):
   vx = -vx
 ```
 
 - `vy`는 매 프레임 중력만큼 증가 (아래로 가속)
-- 바닥에 닿을 때 `vy`를 `bounceVy`로 초기화 → 항상 **생성(분열)된 높이**까지 튀어오름
-- `bounceVy`는 생성 위치 y에서 역산: `-sqrt(2 × GRAVITY × (FLOOR_Y - y - radius))`
+- 바닥에 닿을 때 `vy`를 레벨별 고정 `bounceVy`로 초기화
+- 천장에 닿으면 `vy`를 양수(아래 방향)로 반전 → 버블이 화면 밖으로 나가지 않음
 - `vx`는 좌우 반사 외에는 변하지 않음
 
 ---
@@ -146,6 +150,6 @@ GameScene.tsx
 
 - [x] 버블이 화면에 원형으로 표시된다
 - [x] 버블이 중력을 받아 포물선으로 움직인다
-- [x] 버블이 바닥과 좌우 벽에서 반사된다
+- [x] 버블이 바닥, 천장, 좌우 벽에서 반사된다
 - [x] 와이어에 맞으면 더 작은 버블 2개로 분열된다
 - [x] Lv.1 버블은 와이어에 맞으면 사라진다

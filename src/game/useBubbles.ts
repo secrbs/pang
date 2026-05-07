@@ -41,6 +41,12 @@ export function useBubbles(
         }
       }
 
+      // 천장 반사
+      if (b.y - b.radius <= 0) {
+        b.y = b.radius
+        b.vy = Math.abs(b.vy)
+      }
+
       // 바닥 반사
       if (b.y + b.radius >= FLOOR_Y) {
         b.y = FLOOR_Y - b.radius
