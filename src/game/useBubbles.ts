@@ -17,8 +17,8 @@ export function useBubbles(
 
   const bubblesRef = useRef<Bubble[]>(
     initial.map((b, i) => {
-      const { radius, bounceVy } = BUBBLE_CONFIG[b.level]
-      return { id: i, level: b.level, x: b.x, y: b.y, vx: BUBBLE_CONFIG[b.level].vx, vy: 0, radius, bounceVy }
+      const { radius, bounceVy, vx } = BUBBLE_CONFIG[b.level]
+      return { id: i, level: b.level, x: b.x, y: b.y, vx, vy: bounceVy, radius, bounceVy }
     })
   )
 

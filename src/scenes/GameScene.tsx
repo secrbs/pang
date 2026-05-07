@@ -92,6 +92,7 @@ export default function GameScene({ stageData, lives, cheat, paused, onPlayerDea
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const invincibleRef = useRef(0)
   const cheatRef = useRef(cheat)
+  const stageClearedRef = useRef(false)
 
   useLayoutEffect(() => {
     cheatRef.current = cheat
@@ -124,7 +125,11 @@ export default function GameScene({ stageData, lives, cheat, paused, onPlayerDea
       }
     }
 
-    if (bubblesRef.current.length === 0) { onStageClear(); return }
+    if (!stageClearedRef.current && bubblesRef.current.length === 0) {
+      stageClearedRef.current = true
+      onStageClear()
+      return
+    }
 
     draw(ctx, playerRef.current, wireRef.current, bubblesRef.current, stageData.walls, lives, cheatRef.current, invincibleRef.current)
   }, !paused)
